@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
-      # Setup the build environment
+#       Setup the build environment
       - uses: actions/checkout@v2
 
       - uses: actions/setup-go@v2
@@ -23,17 +23,17 @@ jobs:
       - name: Install Cosign
         uses: sigstore/cosign-installer@main
 
-      # Build our container
+#       Build our container
       - run: docker build --tag=public.ecr.aws/o6u7e2l7/civonavigate2023:${GITHUB_REPOSITORY#*/}-$GITHUB_SHA ./source
 
-      # Login to AWS
+#       Login to AWS
       - uses: aws-actions/configure-aws-credentials@v1
        with:
          role-to-assume: ${{ secrets.AWS_ROLE }}
          role-session-name: ${{ secrets.SESSION_NAME }}
          aws-region: us-east-1
 
-      # Get docker credentials
+#       Get docker credentials
       - name: Login to Amazon ECR Private
        id: login-ecr
        uses: aws-actions/amazon-ecr-login@v1
@@ -41,7 +41,7 @@ jobs:
          registry-type: public
 
 
-      # Push to our registry
+#       Push to our registry
       - run: docker push public.ecr.aws/o6u7e2l7/civonavigate2023:${GITHUB_REPOSITORY#*/}-$GITHUB_SHA
 
       # Sign our image using the GitHub OIDC Token
