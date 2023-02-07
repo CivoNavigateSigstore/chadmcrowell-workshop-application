@@ -9,7 +9,6 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
-#       Setup the build environment
       - uses: actions/checkout@v2
 
       - uses: actions/setup-go@v2
@@ -23,10 +22,8 @@ jobs:
       - name: Install Cosign
         uses: sigstore/cosign-installer@main
 
-#       Build our container
       - run: docker build --tag=public.ecr.aws/o6u7e2l7/civonavigate2023:${GITHUB_REPOSITORY#*/}-$GITHUB_SHA ./source
 
-#       Login to AWS
       - uses: aws-actions/configure-aws-credentials@v1
        with:
          role-to-assume: ${{ secrets.AWS_ROLE }}
